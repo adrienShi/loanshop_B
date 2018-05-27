@@ -12,14 +12,6 @@
           >
           </x-input>
 
-          <x-input 
-            title="芝麻信用分" 
-            v-model="submitData.sesameCreditData" 
-            :max=4 
-            placeholder="请输入芝麻信用分"
-          >
-          </x-input>
-
           <popup-picker 
             :title="'贷款金额'" 
             :data="quota" 
@@ -62,25 +54,73 @@
           >
           </popup-picker>
 
-          <popup-radio :title="'性别'" :options="sex" v-model="submitData.sex"></popup-radio>
+          <cell :title="'性别'" >
+            <checker v-model="submitData.sex" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in sex" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否有社保'" :options="radio" v-model="submitData.security"></popup-radio>
+          <cell :title="'是否有社保'" >
+            <checker v-model="submitData.security" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否有公积金'" :options="radio" v-model="submitData.fund"></popup-radio>
+          <cell :title="'是否有公积金'" >
+            <checker v-model="submitData.fund" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否有信用卡'" :options="radio" v-model="submitData.creditCard"></popup-radio>
+          <cell :title="'是否有信用卡'" >
+            <checker v-model="submitData.creditCard" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否名下有房产'" :options="radio" v-model="submitData.haveHouse"></popup-radio>
+          <cell :title="'是否名下有房产'" >
+            <checker v-model="submitData.haveHouse" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否有房贷'" :options="radio" v-model="submitData.housingLoan"></popup-radio>
+          <cell :title="'是否有房贷'" >
+            <checker v-model="submitData.housingLoan" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否名下有车产'" :options="radio" v-model="submitData.haveCar"></popup-radio>
+          <cell :title="'是否名下有车产'" >
+            <checker v-model="submitData.haveCar" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否有车贷'" :options="radio" v-model="submitData.carLoan"></popup-radio>
+          <cell :title="'是否有车贷'" >
+            <checker v-model="submitData.carLoan" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'本人是否拥有人寿保险'" :options="radio" v-model="submitData.lifeInsurance"></popup-radio>
+          <cell :title="'本人是否拥有人寿保险'" >
+            <checker v-model="submitData.lifeInsurance" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
-          <popup-radio :title="'是否有微粒贷'" :options="radio" v-model="submitData.particleLoanData"></popup-radio>
+          <x-input 
+            title="芝麻信用分" 
+            v-model="submitData.sesameCreditData" 
+            :max=4 
+            placeholder="请输入芝麻信用分"
+          >
+          </x-input>
+
+          <cell :title="'是否有微粒贷'" >
+            <checker v-model="submitData.particleLoanData" default-item-class="demo1-item" selected-item-class="demo1-item-selected">
+              <checker-item :value="item" v-for="(item, index) in radio" :key="index">{{item.value}}</checker-item>
+            </checker>
+          </cell>
 
         </group>
 
@@ -101,7 +141,7 @@ import {
   ChinaAddressV4Data,
   Checker, 
   CheckerItem,
-  PopupRadio 
+  Cell 
 } from 'vux'
 
 export default {
@@ -113,7 +153,9 @@ export default {
     PopupPicker,
     XAddress,
     ChinaAddressV4Data,
-    PopupRadio 
+    Checker, 
+    CheckerItem,
+    Cell 
   },
   data () {
     return { 
@@ -152,16 +194,16 @@ export default {
         sesameCreditData: '',
         occupationData: [],
         incomeData: [],
-        sex: '0',
-        security: '0',
-        fund: '0',
-        creditCard: '0',
-        haveHouse: '0',
-        housingLoan: '0',
-        haveCar: '0',
-        carLoan: '0',
-        lifeInsurance: '0',
-        particleLoanData: '0',
+        sex: {key:'0', value: '男'},
+        security: {key:'0', value: '否'},
+        fund: {key:'0', value: '否'},
+        creditCard: {key:'0', value: '否'},
+        haveHouse: {key:'0', value: '否'},
+        housingLoan: {key:'0', value: '否'},
+        haveCar: {key:'0', value: '否'},
+        carLoan: {key:'0', value: '否'},
+        lifeInsurance: {key:'0', value: '否'},
+        particleLoanData: {key:'0', value: '否'},
         
       }
 
@@ -231,7 +273,15 @@ input::placeholder {
   margin-top: 0 !important;
 }
 
+.demo1-item {
+  border: 1px solid #ececec;
+  padding: 5px 15px;
+  margin-left: 50 / @rem;
+}
 
+.demo1-item-selected {
+  border: 1px solid #FFCC00;
+}
 
 </style>
 
