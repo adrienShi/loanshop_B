@@ -4,21 +4,23 @@
           <p class="text">成功贷款人数</p>
           <countup :start-val="1" :end-val="156189" :duration="2" class="num"></countup>
         </div>
-        <flow>
-          <flow-state state="1" :title="'注册'" is-done></flow-state>
-          <flow-line is-done></flow-line>
-
-          <flow-state state="2" :title="'审核'" is-done></flow-state>
-          <flow-line></flow-line>
-
-          <flow-state state="3" :title="'放款'" is-done></flow-state>
-
-        </flow>
+        <grid class="grid_introduce">
+          <grid-item :label="'高通过率'"  >
+            <x-icon type="ios-checkmark-outline" size="30" slot="icon"></x-icon>
+          </grid-item>
+          <grid-item :label="'1分钟申请'">
+            <x-icon type="ios-ionic-outline" size="30" slot="icon"></x-icon>
+          </grid-item>
+          <grid-item :label="'年化低至7.6%'">
+            <x-icon type="ios-star-outline" size="30" slot="icon"></x-icon>
+          </grid-item>
+        </grid>
         <div class="ipnutBar">
           <p class="phone"><input type="number" v-model.number="inputData.phone" placeholder="请输入手机号"></p>
+          <p class="name"><input type="text" v-model.number="inputData.name" placeholder="请输入姓名"></p>
           <p class="verify"><input type="text" v-model="inputData.verify" placeholder="请输入验证码"> <button v-on:click="verify" > {{inputData.verifyText}}</button></p>
           <p class="agreement"><check-icon :value.sync="inputData.agreement" type="plain">我已阅读并同意<a href="#/agreement" style="color: #0099FF;">《乐借钱平台服务协议》</a> </check-icon></p>
-          <p class="next"><button v-on:click="go">下一步</button></p>
+          <p class="next"><button v-on:click="go('register2')">下一步</button></p>
         </div>
 
     </div>
@@ -26,16 +28,15 @@
 
 <script>
 
-import { Countup, Flow, FlowState, FlowLine, CheckIcon } from 'vux'
+import { Countup, CheckIcon, Grid, GridItem } from 'vux'
 import { setInterval, clearInterval } from 'timers';
 
 export default {
   components: {
     Countup,
-    Flow,
-    FlowState,
-    FlowLine,
-    CheckIcon
+    CheckIcon,
+    Grid,
+    GridItem
   },
   data () {
     return { 
@@ -45,8 +46,8 @@ export default {
         agreement: true,
         verifyText: '请输入验证码',
         verifyRP: 60,
-        verifyFlag: true
-        
+        verifyFlag: true,
+        name: ''
       }
     }
   },
@@ -70,8 +71,8 @@ export default {
         }, 1000);
       }
     },
-    go: function(){
-      this.$router.push({ path: '/' });
+    go: function(url){
+      this.$router.push({ path: url });
     }
   }
 }
@@ -99,9 +100,14 @@ export default {
   }
 }
 
+.grid_introduce {
+  margin-bottom: 20 / @rem;
+}
+
 .ipnutBar {
   text-align: center;
-  .phone {
+  .phone,
+  .name {
     margin-bottom: 20 / @rem;
     input{
       width: 80%;
